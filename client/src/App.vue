@@ -2,11 +2,18 @@
   <div id="app">
     <img src="./assets/logo.png">
     <router-view/>
+    <!-- <container-keys/> -->
+    <row/>
   </div>
 </template>
 
 <script>
+import RowKey from './components/RowKey.vue'
+import ContainerKeys from './components/ContainerKeys.vue'
+import Row from './components/Row.vue'
+
 export default {
+  components: { RowKey, ContainerKeys, Row },
   name: 'App'
 }
 </script>
