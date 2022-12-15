@@ -1,16 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Register from '@/components/Register'
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import Register from '../views/RegisterView.vue'
 
-Vue.use(Router)
-
-export default new Router({
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'home',
+      component: HomeView
     },
     {
       path: '/register',
@@ -19,3 +17,5 @@ export default new Router({
     }
   ]
 })
+
+export default router
