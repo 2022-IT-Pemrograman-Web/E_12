@@ -6,6 +6,6 @@ export default {
         return Api().post('register', credentials);
     },
     getInstrument (name) {
-        return Api().get('/getInstrument/:id', name);
+        return Api().get(`/getInstrument/${name}`);
     }
 }

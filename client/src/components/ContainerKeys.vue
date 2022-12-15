@@ -3,7 +3,7 @@
         <button type="button">Play</button>
     </div>
     <div>
-        <row-key sound='C'/>
+        <row-key sound='C-3_Piano'/>
         <row-key sound='D'/>
         <row-key sound='E'/>
     </div>

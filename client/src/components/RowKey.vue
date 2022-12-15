@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             instrument: {
-                name: '',
+                name: this.sound,
                 soundFile: '',
                 keys: {
                     '1': false, '2': false, '3': false, '4': false,
@@ -30,17 +30,16 @@ export default {
     },
     methods: {
         click(index) {
-            this.data.keys[index] = !this.data.keys[index];
+            this.instrument.keys[index] = !this.instrument.keys[index];
         },
+        async getInstrument () {
+            const response = await AuthenticationService.getInstrument("C-3_Piano");
+            console.log(response.data);
+            this.instrument = response.data;
+        }
     },
-    mounted: {
-        // async getInstrument () {
-        //     const response = await AuthenticationService.getInstrument({
-        //         name: this.sound
-        //     })
-        //     console.log(response.data);
-        //     this.instrument = response.data;
-        // }
+    mounted() {
+        this.getInstrument();
     }
 }
 </script>
