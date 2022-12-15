@@ -1,11 +1,6 @@
 <template>
-    <div class="play-button">
-        <button type="button">Play</button>
-    </div>
-    <div>
-        <row-key sound='C'/>
-        <row-key sound='D'/>
-        <row-key sound='E'/>
+    <div style="display: flex;">
+        <!-- <row-key/> -->
     </div>
 </template>
 

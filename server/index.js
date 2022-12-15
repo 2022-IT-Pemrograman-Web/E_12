@@ -1,15 +1,36 @@
 const express = require("express");
 const cors = require("cors");
-const User = require("./config");
+const { User, Instruments } = require("./config");
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", async (req, res) => {
-  const snapshot = await User.get();
+app.get("/getInstrument/:id", async (req, res) => {
+  var docRef = Instruments.doc(req.params.id);
+
+  await docRef.get().then((doc) => {
+      if (doc.exists) {
+        res.send(doc.data());
+      } else {
+        res.send(404);
+      }
+  }).catch((error) => {
+      res.send(403);
+  });
+});
+
+app.get("/getInstr", async (req, res) => {
+  const snapshot = await Instruments.get();
   const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   res.send(list);
 });
+
+app.post('/register', (req, res) => {
+
+  res.send({
+      message: `hello ${req.body.email}!`
+  })
+})
 
 app.post("/create", async (req, res) => {
   const data = req.body;

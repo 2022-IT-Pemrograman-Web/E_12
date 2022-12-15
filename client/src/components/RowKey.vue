@@ -1,38 +1,55 @@
 <template>
+    <div class="identifier">
+        <p>{{ sound }}</p>
+    </div>
     <div class="key-container">
-        <div v-for="i in keys" :key="i">
-            <div class="key" :class="{ active: i.active }" @click="click(i)">{{i.active}}</div>
+        <div v-for="index in 16" :key="index">
+            <div class="key" @click="click(index)">{{instrument.keys[index]}}</div>
         </div>
     </div>
 </template>
 
 <script>
+import AuthenticationService from '@/services/AutheticationService'
 export default {
     name: 'RowKey',
+    props: ['sound'],
     data() {
         return {
-            keys: [
-                { active: true }, { active: true }, { active: true }, { active: true },
-                { active: true }, { active: true }, { active: true }, { active: true },
-                { active: true }, { active: true }, { active: true }, { active: true },
-                { active: true }, { active: true }, { active: true }, { active: true },
-            ],
+            instrument: {
+                name: '',
+                soundFile: '',
+                keys: {
+                    '1': false, '2': false, '3': false, '4': false,
+                    '5': false, '6': false, '7': false, '8': false,
+                    '9': false, '10': false, '11': false, '12': false,
+                    '13': false, '14': false, '15': false, '16': false
+                }
+            },
         }
     },
     methods: {
-        click(i) {
-            i.active = !i.active;
-        }
+        click(index) {
+            this.data.keys[index] = !this.data.keys[index];
+        },
+    },
+    mounted: {
+        // async getInstrument () {
+        //     const response = await AuthenticationService.getInstrument({
+        //         name: this.sound
+        //     })
+        //     console.log(response.data);
+        //     this.instrument = response.data;
+        // }
     }
 }
 </script>
 
 <style>
-
 .key-container {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
-    background-color: red;
+    background-color: gray;
 }
 
 .key {
