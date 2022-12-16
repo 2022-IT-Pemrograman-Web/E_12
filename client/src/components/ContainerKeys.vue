@@ -1,7 +1,6 @@
 <template>
     <div class="play-button">
-        <button type="button" @click="onClickPlay()">Play</button>
-        <button type="button" @click="onClickPause()">Pause</button>
+        <button type="button" @click="onClickButton()">{{ this.status }}</button>
     </div>
     <div>
         <row-key sound='C-3_Piano' :isPlayed=this.isPlayed />
@@ -19,14 +18,14 @@ export default {
     data() {
         return {
             isPlayed: false,
+            status: 'Play'
         }
     },
     methods: {
-        onClickPlay() {
-            this.isPlayed = true;
-        },
-        onClickPause() {
-            this.isPlayed = false;
+        onClickButton() {
+            this.isPlayed = !this.isPlayed;
+            if(this.isPlayed) this.status = 'Stop'
+            else this.status = 'Play'
         }
     },
 }

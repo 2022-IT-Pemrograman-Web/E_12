@@ -27,48 +27,45 @@ export default {
                     '13': false, '14': false, '15': false, '16': false
                 }
             },
-            hasPlayed: [false, false, false, false, 
-                        false, false, false, false, 
-                        false, false, false, false, 
-                        false, false, false, false]
+            musicPlaying: ''
         }
     },
     methods: {
         click(index) {
             this.instrument.keys[index] = !this.instrument.keys[index];
-            console.log(this.isPlayed);
-            console.log(this.instrument.soundFile);
         },
         async getInstrument () {
-            const response = await AuthenticationService.getInstrument("C-3_Piano");
-            console.log(response.data);
+            const response = await AuthenticationService.getInstrument(this.sound);
             this.instrument = response.data;
         },
-        async loopMusic() {
-            var loop = 0;
-            var interval = 500; // ms
+        loopMusic(loop) {
+            var interval = 700; // ms
             var expected = Date.now() + interval;
             var audio = this.instrument.soundFile;
 
-            setTimeout(step, interval);
-            function step() {
+            setTimeout(function () {
                 var dt = Date.now() - expected; // the drift (positive for overshooting)
                 if (dt > interval) {
                     // something really bad happened. Maybe the browser (tab) was inactive?
                     // possibly special handling to avoid futile "catch up" run
                 }
 
-                var sfx = new Audio(audio);
-                sfx.play();
-                loop++;
-                console.log(loop);
-
-                if (loop != 16)
+                if (this.isPlayed)
                 {
-                    expected += interval;
-                    setTimeout(step, Math.max(0, interval - dt)); // take into account drift
-                }  
-            }   
+                    var sfx = new Audio(audio);
+                    sfx.play();
+                    loop++;
+                    console.log(loop);
+                    console.log(this.isPlayed);
+
+                    if (loop != 16)
+                    {
+                        expected += interval;
+                        setTimeout(this.loopMusic(loop), Math.max(0, interval - dt)); // take into account drift
+                    }  
+                }
+                
+            }.bind(this), interval); 
         }
     },
     mounted() {
@@ -76,8 +73,14 @@ export default {
     }, 
     watch: {
         isPlayed: function(newVal, oldVal) { // watch it
-          console.log('Prop changed: ', newVal, ' | was: ', oldVal);
-          if(newVal == true) this.loopMusic();
+            console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+
+            if (newVal ==  true) {
+                this.loopMusic(0);
+            }
+            else if(newVal == false) {
+                // pause = true;
+            }
         }
     }
 }
