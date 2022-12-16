@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RowKey from './RowKey.vue'
+import RowKey from './InstrumentKey.vue'
 
 export default {
     components: { RowKey },

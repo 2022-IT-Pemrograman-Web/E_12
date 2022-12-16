@@ -15,6 +15,7 @@ import AuthenticationService from '@/services/AutheticationService'
 export default {
     name: 'RowKey',
     props: ['sound', 'isPlayed'],
+    emits: ['selesai'],
     data() {
         return {
             instrument: {
@@ -52,8 +53,11 @@ export default {
 
                 if (this.isPlayed)
                 {
-                    var sfx = new Audio(audio);
-                    sfx.play();
+                    if(this.instrument.keys[loop+1])
+                    {
+                        var sfx = new Audio(audio);
+                        sfx.play();
+                    }
                     loop++;
                     console.log(loop);
                     console.log(this.isPlayed);
@@ -66,6 +70,10 @@ export default {
                 }
                 
             }.bind(this), interval); 
+
+            if (loop == 15) {
+                this.$emit('selesai');
+            }
         }
     },
     mounted() {
@@ -73,13 +81,8 @@ export default {
     }, 
     watch: {
         isPlayed: function(newVal, oldVal) { // watch it
-            console.log('Prop changed: ', newVal, ' | was: ', oldVal);
-
             if (newVal ==  true) {
                 this.loopMusic(0);
-            }
-            else if(newVal == false) {
-                // pause = true;
             }
         }
     }

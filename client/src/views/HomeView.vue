@@ -1,5 +1,5 @@
 <script setup>
-import ContainerKeys from '../components/ContainerKeys.vue';
+import ContainerKeys from '../components/InstrumentContainer.vue';
 </script>
 
 <template>
