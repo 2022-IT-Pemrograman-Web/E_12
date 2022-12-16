@@ -1,19 +1,20 @@
 <template>
     <div class="identifier">
-        <p>{{ sound }}</p>
+        <p>{{ this.instrument.name }}</p>
     </div>
     <div class="key-container">
         <div v-for="index in 16" :key="index">
             <div class="key" @click="click(index)">{{instrument.keys[index]}}</div>
         </div>
     </div>
+    <audio ref="audio"></audio>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AutheticationService'
 export default {
     name: 'RowKey',
-    props: ['sound'],
+    props: ['sound', 'isPlayed'],
     data() {
         return {
             instrument: {
@@ -31,15 +32,36 @@ export default {
     methods: {
         click(index) {
             this.instrument.keys[index] = !this.instrument.keys[index];
+            console.log(this.isPlayed);
+            console.log(this.instrument.soundFile);
         },
         async getInstrument () {
             const response = await AuthenticationService.getInstrument("C-3_Piano");
             console.log(response.data);
             this.instrument = response.data;
+        },
+        loopMusic() {
+            var i = 0;
+            var interval = setInterval(() => {
+                this.playMusic();
+                i++;
+                console.log(i);
+                if(i == 16) clearInterval(interval);
+            }, 1000);
+        },
+        playMusic() {
+            var sfx = new Audio(this.instrument.soundFile);
+            sfx.play();
         }
     },
     mounted() {
         this.getInstrument();
+    }, 
+    watch: {
+        isPlayed: function(newVal, oldVal) { // watch it
+          console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+          if(newVal == true) this.loopMusic();
+        }
     }
 }
 </script>
