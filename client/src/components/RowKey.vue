@@ -27,6 +27,10 @@ export default {
                     '13': false, '14': false, '15': false, '16': false
                 }
             },
+            hasPlayed: [false, false, false, false, 
+                        false, false, false, false, 
+                        false, false, false, false, 
+                        false, false, false, false]
         }
     },
     methods: {
@@ -40,18 +44,31 @@ export default {
             console.log(response.data);
             this.instrument = response.data;
         },
-        loopMusic() {
-            var i = 0;
-            var interval = setInterval(() => {
-                this.playMusic();
-                i++;
-                console.log(i);
-                if(i == 16) clearInterval(interval);
-            }, 1000);
-        },
-        playMusic() {
-            var sfx = new Audio(this.instrument.soundFile);
-            sfx.play();
+        async loopMusic() {
+            var loop = 0;
+            var interval = 500; // ms
+            var expected = Date.now() + interval;
+            var audio = this.instrument.soundFile;
+
+            setTimeout(step, interval);
+            function step() {
+                var dt = Date.now() - expected; // the drift (positive for overshooting)
+                if (dt > interval) {
+                    // something really bad happened. Maybe the browser (tab) was inactive?
+                    // possibly special handling to avoid futile "catch up" run
+                }
+
+                var sfx = new Audio(audio);
+                sfx.play();
+                loop++;
+                console.log(loop);
+
+                if (loop != 16)
+                {
+                    expected += interval;
+                    setTimeout(step, Math.max(0, interval - dt)); // take into account drift
+                }  
+            }   
         }
     },
     mounted() {
