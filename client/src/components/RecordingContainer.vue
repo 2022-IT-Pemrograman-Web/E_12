@@ -11,6 +11,7 @@ import RecordingItem from './RecordingItem.vue';
 export default {
     components: { RecordingItem },
     name: 'ContainerKeys',
+    props: ['isReloading'],
     emits: ['loadedMusic', 'isLoaded'],
     data() {
         return {
@@ -29,5 +30,10 @@ export default {
     mounted() {
         this.getMusics();
     },
+    watch: {
+        isReloading: function(newVal, oldVal) {
+            if(newVal) this.getMusics();
+        }
+    }
 }
 </script>

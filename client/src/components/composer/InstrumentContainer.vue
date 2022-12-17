@@ -46,7 +46,7 @@ export default {
     components: { RowKey, LightIndicator },
     props: ['loadedMusic'],
     name: 'ContainerKeys',
-    emits: ['selesai', 'saveInstrument'],
+    emits: ['loadRecord'],
     data() {
         return {
             isPlayed: false,
@@ -76,10 +76,17 @@ export default {
             await setTimeout(this.saveMusic, 1000);
         },
         async editMusic(id, obj) {
-            const response = await AuthenticationService.setMusic(id, obj);
-            console.log(response);
+            console.log(id, obj);
+            const response = await AuthenticationService.editMusic(id, obj);
             this.isSaved = false;
             this.saveStatus = 'Save';
+        },
+        async createMusic(obj) {
+            const response = await AuthenticationService.createMusic(obj);
+            this.isSaved = false;
+            this.saveStatus = 'Save';
+
+            this.$emit('loadRecord');
         },
         saveMusic() {
             var obj = {
@@ -90,6 +97,7 @@ export default {
             if(this.currentMusic.hasOwnProperty('id')){
                 this.editMusic(this.currentMusic.id, obj);
             }
+            else this.createMusic(obj);
         },
         saveBuffer(value) {
             this.newInstruments = {

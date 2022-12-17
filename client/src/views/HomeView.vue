@@ -6,10 +6,10 @@ import RecordingContainer from '../components/RecordingContainer.vue';
 <template>
   <main>
     <div>
-      <RecordingContainer @isLoaded="this.loadedMusic" />
+      <RecordingContainer :isReloading="isReloading" @isLoaded="this.loadedMusic" />
     </div>
     <div style="margin-top: 30px;">
-      <ContainerKeys :loadedMusic="isLoaded" />
+      <ContainerKeys :loadedMusic="isLoaded" @loadRecord="this.needReload"/>
     </div>
   </main>
 </template>
@@ -18,13 +18,20 @@ import RecordingContainer from '../components/RecordingContainer.vue';
 export default {
   data() {
     return {
-      isLoaded: {}
+      isLoaded: {},
+      isReloading: false,
     }
   },
   emits: ['loadedMusic', 'isLoaded'],
   methods: {
     loadedMusic (value) {
       this.isLoaded = value;
+    },
+    needReload (value) {
+      this.isReloading = true;
+      setTimeout(() => {
+        this.isReloading = false;
+      }, 1000);
     }
   }
 }

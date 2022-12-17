@@ -19,7 +19,18 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
-app.post("/setMusic/:id", async (req, res) => {
+app.get("/getMusics", async (req, res) => {
+  var list = [];
+  const snapshot = await Musics.get();
+
+  snapshot.forEach((doc) => {
+    list.push({id: doc.id, ...doc.data()});
+  })
+
+  res.send(list);
+});
+
+app.post("/editMusic/:id", async (req, res) => {
   var docRef = Musics.doc(req.params.id);
   await docRef.set({
     name: req.body.name,
@@ -29,15 +40,13 @@ app.post("/setMusic/:id", async (req, res) => {
   res.send({ msg: "Music Edited!" });
 });
 
-app.get("/getMusic", async (req, res) => {
-  var list = [];
-  const snapshot = await Musics.get();
-
-  snapshot.forEach((doc) => {
-    list.push({id: doc.id, ...doc.data()});
+app.post("/createMusic", async (req, res) => {
+  await Musics.add({
+    name: req.body.name,
+    instruments: req.body.instruments
   })
 
-  res.send(list);
+  res.send({ msg: "Music Created!" });
 });
 
 app.post('/register', (req, res) => {
