@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { User, Instruments } = require("./config");
+const { User, Instruments, Musics } = require("./config");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -19,9 +19,14 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
-app.get("/getInstr", async (req, res) => {
-  const snapshot = await Instruments.get();
-  const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+app.get("/getMusics", async (req, res) => {
+  var list = [];
+  const snapshot = await Musics.get();
+
+  snapshot.forEach((doc) => {
+    list.push({id: doc.id, ...doc.data()});
+  })
+
   res.send(list);
 });
 

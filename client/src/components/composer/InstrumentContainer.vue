@@ -5,7 +5,7 @@
     </div>
     <div style="margin-top: 8px;">
         <div>Project Name:</div>
-        <input type="text" v-model="projectName">
+        <input type="text" v-model="currentMusic.name">
     </div>
     <div style="margin-top: 12px;">
         <row-key sound='C-3_Piano' :isPlayed=this.isPlayed />
@@ -23,13 +23,17 @@ import LightIndicator from './LightIndicator.vue'
 
 export default {
     components: { RowKey, LightIndicator },
+    props: ['loadedMusic'],
     name: 'ContainerKeys',
     emits: ['selesai'],
     data() {
         return {
             isPlayed: false,
             status: 'Play',
-            projectName: 'My Music'
+            currentMusic: {
+                name: 'My Music',
+                instruments: {}
+            }
         }
     },
     methods: {
@@ -42,7 +46,16 @@ export default {
             this.isPlayed = false;
             this.status = 'Play'
             console.log("selesai");
+        },
+        loadMusic() {
+            this.currentMusic
+            console.log(this.loadedMusic.instruments);
         }
     },
+    watch: {
+        loadedMusic: function(newVal, oldVal) {
+            this.loadMusic();
+        }
+    }
 }
 </script>

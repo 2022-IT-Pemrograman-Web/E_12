@@ -14,6 +14,7 @@
 
 <script>
 import AuthenticationService from '@/services/AutheticationService'
+
 export default {
     name: 'RowKey',
     props: ['sound', 'isPlayed'],
@@ -23,13 +24,13 @@ export default {
             instrument: {
                 name: this.sound,
                 soundFile: '',
-                keys: {
-                    '1': false, '2': false, '3': false, '4': false,
-                    '5': false, '6': false, '7': false, '8': false,
-                    '9': false, '10': false, '11': false, '12': false,
-                    '13': false, '14': false, '15': false, '16': false
-                },
                 color: ''
+            },
+            keys: {
+                '1': false, '2': false, '3': false, '4': false,
+                '5': false, '6': false, '7': false, '8': false,
+                '9': false, '10': false, '11': false, '12': false,
+                '13': false, '14': false, '15': false, '16': false
             },
             musicPlaying: '',
             sfx: '',
@@ -39,7 +40,7 @@ export default {
         keyObject(index) {
             var bgColor;
 
-            if(!this.instrument.keys[index])
+            if(!this.keys[index])
             {
                 if(index <= 4 || (index >= 9 && index <= 12)) bgColor = "rgb(222, 222, 222)";
                 else bgColor = "rgb(238, 238, 238)"; 
@@ -51,7 +52,7 @@ export default {
             }
         },
         click(index) {
-            this.instrument.keys[index] = !this.instrument.keys[index];
+            this.keys[index] = !this.keys[index];
         },
         async getInstrument () {
             const response = await AuthenticationService.getInstrument(this.sound);
@@ -90,7 +91,7 @@ export default {
 
                 if (this.isPlayed)
                 {
-                    if(this.instrument.keys[loop+1])
+                    if(this.keys[loop+1])
                     {
                         this.sfx[loop+1].play();
                     }

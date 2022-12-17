@@ -8,7 +8,10 @@ const firebaseConfig = {
     appId: "1:996588048912:web:e6d49b3ab4a95733e3f095"
 };
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
 const User = db.collection("Users");
 const Instruments = db.collection("instruments");
-module.exports = { User, Instruments };
+const Musics = db.collection("musics");
+
+module.exports = { User, Instruments, Musics };

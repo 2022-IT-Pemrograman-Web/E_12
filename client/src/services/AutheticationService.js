@@ -7,5 +7,8 @@ export default {
     },
     getInstrument (name) {
         return Api().get(`/getInstrument/${name}`);
+    },
+    getMusics() {
+        return Api().get(`/getMusics`);
     }
 }
