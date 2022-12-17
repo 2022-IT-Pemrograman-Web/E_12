@@ -17,8 +17,8 @@ import AuthenticationService from '@/services/AutheticationService'
 
 export default {
     name: 'RowKey',
-    props: ['sound', 'isPlayed', 'loadedInstruments'],
-    emits: ['selesai'],
+    props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic'],
+    emits: ['selesai', 'saveInstrument'],
     data() {
         return {
             instrument: {
@@ -113,32 +113,43 @@ export default {
             }
         },
         loadMusic() {
-            if(this.loadedInstruments.hasOwnProperty(this.sound))
+            if(this.loadedMusic.instruments.hasOwnProperty(this.sound))
             {
-                this.keys = this.loadedInstruments[this.sound];
+                this.keys = this.loadedMusic.instruments[this.sound];
             }
             else 
             {
-                this. keys = {
+                this.keys = {
                     '1': false, '2': false, '3': false, '4': false,
                     '5': false, '6': false, '7': false, '8': false,
                     '9': false, '10': false, '11': false, '12': false,
                     '13': false, '14': false, '15': false, '16': false
                 };
             }
+        },
+        saveMusic() {
+            var obj = {
+                [this.sound]: this.keys
+            }
+            this.$emit('saveInstrument', obj);
         }
     },
     mounted() {
         this.getInstrument();
     }, 
     watch: {
-        isPlayed: function(newVal, oldVal) { // watch it
+        isPlayed: function(newVal, oldVal) {
             if (newVal ==  true) {
                 this.loopMusic(0);
             }
         },
-        loadedInstruments: function(newVal, oldVal) { 
+        loadedMusic: function(newVal, oldVal) { 
             this.loadMusic();
+        },
+        isSaved: function(newVal, oldVal) {
+            if(newVal == true) {
+                this.saveMusic();
+            }
         }
     }
 }

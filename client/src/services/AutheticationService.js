@@ -8,7 +8,10 @@ export default {
     getInstrument (name) {
         return Api().get(`/getInstrument/${name}`);
     },
+    setMusic(id, credentials) {
+        return Api().post(`/setMusic/${id}`, credentials);
+    },
     getMusics() {
-        return Api().get(`/getMusics`);
+        return Api().get(`/getMusic`);
     }
 }

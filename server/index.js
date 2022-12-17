@@ -19,7 +19,17 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
-app.get("/getMusics", async (req, res) => {
+app.post("/setMusic/:id", async (req, res) => {
+  var docRef = Musics.doc(req.params.id);
+  await docRef.set({
+    name: req.body.name,
+    instruments: req.body.instruments
+  })
+
+  res.send({ msg: "Music Edited!" });
+});
+
+app.get("/getMusic", async (req, res) => {
   var list = [];
   const snapshot = await Musics.get();
 
