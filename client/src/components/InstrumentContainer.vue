@@ -1,8 +1,13 @@
 <template>
     <div class="play-button">
-        <button type="button" @click="onClickButton">{{ this.status }}</button>
+        <button type="button" @click="onClickPlay">{{ this.status }}</button>
+        <button type="button" @click="onClickSave">Save</button>
     </div>
-    <div>
+    <div style="margin-top: 8px;">
+        <div>Project Name:</div>
+        <input type="text" v-model="projectName">
+    </div>
+    <div style="margin-top: 12px;">
         <row-key sound='C-3_Piano' :isPlayed=this.isPlayed />
         <row-key sound='D-3_Piano' :isPlayed=this.isPlayed />
         <row-key sound='E-3_Piano' :isPlayed=this.isPlayed />
@@ -23,11 +28,12 @@ export default {
     data() {
         return {
             isPlayed: false,
-            status: 'Play'
+            status: 'Play',
+            projectName: 'My Music'
         }
     },
     methods: {
-        onClickButton() {
+        onClickPlay() {
             this.isPlayed = !this.isPlayed;
             if(this.isPlayed) this.status = 'Stop'
             else this.status = 'Play'
