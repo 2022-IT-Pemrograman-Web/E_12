@@ -17,7 +17,7 @@ import AuthenticationService from '@/services/AutheticationService'
 
 export default {
     name: 'RowKey',
-    props: ['sound', 'isPlayed'],
+    props: ['sound', 'isPlayed', 'loadedInstruments'],
     emits: ['selesai'],
     data() {
         return {
@@ -111,6 +111,21 @@ export default {
             if (loop == 15) {
                 this.$emit('selesai');
             }
+        },
+        loadMusic() {
+            if(this.loadedInstruments.hasOwnProperty(this.sound))
+            {
+                this.keys = this.loadedInstruments[this.sound];
+            }
+            else 
+            {
+                this. keys = {
+                    '1': false, '2': false, '3': false, '4': false,
+                    '5': false, '6': false, '7': false, '8': false,
+                    '9': false, '10': false, '11': false, '12': false,
+                    '13': false, '14': false, '15': false, '16': false
+                };
+            }
         }
     },
     mounted() {
@@ -121,6 +136,9 @@ export default {
             if (newVal ==  true) {
                 this.loopMusic(0);
             }
+        },
+        loadedInstruments: function(newVal, oldVal) { 
+            this.loadMusic();
         }
     }
 }

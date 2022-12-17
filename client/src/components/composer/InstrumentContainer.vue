@@ -8,9 +8,9 @@
         <input type="text" v-model="currentMusic.name">
     </div>
     <div style="margin-top: 12px;">
-        <row-key sound='C-3_Piano' :isPlayed=this.isPlayed />
-        <row-key sound='D-3_Piano' :isPlayed=this.isPlayed />
-        <row-key sound='E-3_Piano' :isPlayed=this.isPlayed />
+        <row-key sound='C-3_Piano' :isPlayed=this.isPlayed :loadedInstruments=this.currentMusic.instruments />
+        <row-key sound='D-3_Piano' :isPlayed=this.isPlayed :loadedInstruments=this.currentMusic.instruments />
+        <row-key sound='E-3_Piano' :isPlayed=this.isPlayed :loadedInstruments=this.currentMusic.instruments />
     </div>
     <div style="margin-top: 8px;">
         <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
@@ -48,8 +48,7 @@ export default {
             console.log("selesai");
         },
         loadMusic() {
-            this.currentMusic
-            console.log(this.loadedMusic.instruments);
+            this.currentMusic = this.loadedMusic;
         }
     },
     watch: {
