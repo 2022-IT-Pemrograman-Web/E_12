@@ -1,13 +1,15 @@
 <template>
-    <div class="identifier">
-        <p>{{ this.instrument.name }}</p>
-    </div>
-    <div class="key-container">
-        <div v-for="index in 16" :key="index">
-            <div class="key" @click="click(index)">{{instrument.keys[index]}}</div>
+    <div style="display: flex;">
+        <div class="identifier">
+            <p>{{ this.instrument.name }}</p>
         </div>
+        <div class="key-container">
+            <div v-for="index in 16" :key="index">
+                <div class="key" :style="keyObject(index)" @click="click(index)"></div>
+            </div>
+        </div>
+        <audio ref="audio"></audio>
     </div>
-    <audio ref="audio"></audio>
 </template>
 
 <script>
@@ -26,18 +28,53 @@ export default {
                     '5': false, '6': false, '7': false, '8': false,
                     '9': false, '10': false, '11': false, '12': false,
                     '13': false, '14': false, '15': false, '16': false
-                }
+                },
+                color: ''
             },
-            musicPlaying: ''
+            musicPlaying: '',
+            sfx: '',
         }
     },
     methods: {
+        keyObject(index) {
+            var bgColor;
+
+            if(!this.instrument.keys[index])
+            {
+                if(index <= 4 || (index >= 9 && index <= 12)) bgColor = "rgb(222, 222, 222)";
+                else bgColor = "rgb(238, 238, 238)"; 
+            }
+            else bgColor = this.instrument.color;
+            
+            return {
+                "background-color": bgColor + " !important",
+            }
+        },
         click(index) {
             this.instrument.keys[index] = !this.instrument.keys[index];
         },
         async getInstrument () {
             const response = await AuthenticationService.getInstrument(this.sound);
             this.instrument = response.data;
+
+            this.sfx = {
+                '1': new Audio(this.instrument.soundFile),
+                '2': new Audio(this.instrument.soundFile),
+                '3': new Audio(this.instrument.soundFile),
+                '4': new Audio(this.instrument.soundFile),
+                '5': new Audio(this.instrument.soundFile),
+                '6': new Audio(this.instrument.soundFile),
+                '7': new Audio(this.instrument.soundFile),
+                '8': new Audio(this.instrument.soundFile),
+                '9': new Audio(this.instrument.soundFile),
+                '10': new Audio(this.instrument.soundFile),
+                '11': new Audio(this.instrument.soundFile),
+                '12': new Audio(this.instrument.soundFile),
+                '13': new Audio(this.instrument.soundFile),
+                '14': new Audio(this.instrument.soundFile),
+                '15': new Audio(this.instrument.soundFile),
+                '16': new Audio(this.instrument.soundFile)
+            }
         },
         loopMusic(loop) {
             var interval = 700; // ms
@@ -55,8 +92,7 @@ export default {
                 {
                     if(this.instrument.keys[loop+1])
                     {
-                        var sfx = new Audio(audio);
-                        sfx.play();
+                        this.sfx[loop+1].play();
                     }
                     loop++;
                     console.log(loop);
@@ -90,20 +126,24 @@ export default {
 </script>
 
 <style>
+.identifier {
+    border: rgb(89, 89, 89) 2px solid;
+    border-radius: 4px;
+    margin: 2px;
+    margin-right: 6px;
+    padding: 2px 6px;
+    width: 100px;
+}
 .key-container {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
-    background-color: gray;
 }
 
 .key {
-    height: 20px;
-    padding: 3px;
+    width: 40px;
+    height: 60px !important;
     margin: 2px;
-    background-color: beige;
-}
-
-.active {
-    background-color: blue;
+    border-radius: 4px !important;
+   
 }
 </style>

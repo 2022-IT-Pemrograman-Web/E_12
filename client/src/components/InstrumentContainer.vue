@@ -3,18 +3,23 @@
         <button type="button" @click="onClickButton">{{ this.status }}</button>
     </div>
     <div>
-        <row-key sound='C-3_Piano' :isPlayed=this.isPlayed @selesai="onClickChild"/>
+        <row-key sound='C-3_Piano' :isPlayed=this.isPlayed />
         <row-key sound='D-3_Piano' :isPlayed=this.isPlayed />
         <row-key sound='E-3_Piano' :isPlayed=this.isPlayed />
+    </div>
+    <div style="margin-top: 8px;">
+        <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
     </div>
 </template>
 
 <script>
 import RowKey from './InstrumentKey.vue'
+import LightIndicator from './LightIndicator.vue'
 
 export default {
-    components: { RowKey },
+    components: { RowKey, LightIndicator },
     name: 'ContainerKeys',
+    emits: ['selesai'],
     data() {
         return {
             isPlayed: false,
