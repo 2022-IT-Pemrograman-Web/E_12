@@ -6,11 +6,17 @@ import AuthenticationService from '@/services/AutheticationService'
 
 <template>
   <main>
-    <div style="background-color:aqua;">
+    <h2>BeatMaker</h2>
+    <br>  
+    <h5>List Project</h5>
+    <div style="background-color:honeydew;">
       <RecordingContainer :isReloading="isReloading" @isLoaded="this.loadedMusic" />
     </div>
     <button style="margin-top: 30px;" class="button-1" @click="onClickNew">New Project</button>
-    <div style="margin-top: 30px;">
+    
+    <br>
+    <h5 style="margin-top: 30px;">Workspace</h5>
+    <div style="margin-top: 10px;">
       <ContainerKeys :loadedMusic="isLoaded" @loadRecord="this.needReload"/>
     </div>
   </main>

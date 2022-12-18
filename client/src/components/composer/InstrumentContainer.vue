@@ -1,40 +1,41 @@
 <template>
-    <div class="play-button">
-        <button type="button" @click="onClickPlay">{{ this.status }}</button>
-        <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
-        <button type="button" @click="onClickDelete">Delete</button>
-    </div>
-    <div style="margin-top: 8px;">
-        <div>Project Name:</div>
-        <input type="text" v-model="currentMusic.name">
-    </div>
-    <div style="margin-top: 12px;">
-        <row-key 
-            sound='C-3_Piano' 
-            :isPlayed=this.isPlayed 
-            :loadedMusic=this.currentMusic
-            :isSaved=this.isSaved
-            @saveInstrument=this.saveBuffer
-        />
-
-        <row-key 
-            sound='D-3_Piano' 
-            :isPlayed=this.isPlayed 
-            :loadedMusic=this.currentMusic
-            :isSaved=this.isSaved
-            @saveInstrument=this.saveBuffer
-        />
-
-        <row-key 
-            sound='E-3_Piano' 
-            :isPlayed=this.isPlayed 
-            :loadedMusic=this.currentMusic
-            :isSaved=this.isSaved
-            @saveInstrument=this.saveBuffer
-        />
-    </div>
-    <div style="margin-top: 8px;">
-        <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
+    <div>
+        <div class="play-button">
+            <button type="button" @click="onClickPlay">{{ this.status }}</button>
+            <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
+        </div>
+        <div style="margin-top: 8px;">
+            <div>Project Name:</div>
+            <input type="text" v-model="currentMusic.name">
+        </div>
+        <div style="margin-top: 12px;">
+            <row-key 
+                sound='C-3_Piano' 
+                :isPlayed=this.isPlayed 
+                :loadedMusic=this.currentMusic
+                :isSaved=this.isSaved
+                @saveInstrument=this.saveBuffer
+            />
+    
+            <row-key 
+                sound='D-3_Piano' 
+                :isPlayed=this.isPlayed 
+                :loadedMusic=this.currentMusic
+                :isSaved=this.isSaved
+                @saveInstrument=this.saveBuffer
+            />
+    
+            <row-key 
+                sound='E-3_Piano' 
+                :isPlayed=this.isPlayed 
+                :loadedMusic=this.currentMusic
+                :isSaved=this.isSaved
+                @saveInstrument=this.saveBuffer
+            />
+        </div>
+        <div style="margin-top: 8px;">
+            <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
+        </div>
     </div>
 </template>
 
@@ -76,14 +77,6 @@ export default {
             this.saveStatus = 'Saving...'
             await setTimeout(this.saveMusic, 1000);
         },
-        async onClickDelete() {
-            if(this.currentMusic.hasOwnProperty('id')){
-                console.log("alhamdulillah ada id hehe")
-                await setTimeout(this.deleteMusic(this.currentMusic.id), 1000);
-            }
-            else console.log("astaghfirullah, gaada id hehe")
-            
-        },
         async editMusic(id, obj) {
             console.log(id, obj);
             const response = await AuthenticationService.editMusic(id, obj);
@@ -96,11 +89,6 @@ export default {
             this.saveStatus = 'Save';
 
             this.$emit('loadRecord');
-        },
-        async deleteMusic(id) {
-            const response = await AuthenticationService.deleteMusic(id);
-
-            // this.$emit('deleteRecord');
         },
         saveMusic() {
             var obj = {
