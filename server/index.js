@@ -40,6 +40,7 @@ app.post("/editMusic/:id", async (req, res) => {
   res.send({ msg: "Music Edited!" });
 });
 
+
 app.post("/createMusic", async (req, res) => {
   await Musics.add({
     name: req.body.name,
@@ -47,6 +48,18 @@ app.post("/createMusic", async (req, res) => {
   })
 
   res.send({ msg: "Music Created!" });
+});
+
+app.post("/deleteMusic/:id", async (req, res) => {
+  
+  var docRef = Musics.doc(req.params.id);
+  
+  await docRef.delete().then(() => {
+    res.send({ msg: "Deleted" });
+  }).catch((error) => {
+    console.log("hai, error di sini!");
+    res.status(400).send(error);
+  });
 });
 
 app.post('/register', (req, res) => {
@@ -68,12 +81,6 @@ app.post("/update", async (req, res) => {
   const data = req.body;
   await User.doc(id).update(data);
   res.send({ msg: "Updated" });
-});
-
-app.post("/delete", async (req, res) => {
-  const id = req.body.id;
-  await User.doc(id).delete();
-  res.send({ msg: "Deleted" });
 });
 
 app.listen(process.env.PORT || 8081);

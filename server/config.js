@@ -7,7 +7,9 @@ const firebaseConfig = {
     messagingSenderId: "996588048912",
     appId: "1:996588048912:web:e6d49b3ab4a95733e3f095"
 };
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp({
+    credential: firebase.credential.cert(require('./admin.json'))
+});
 
 const db = firebase.firestore();
 const User = db.collection("Users");

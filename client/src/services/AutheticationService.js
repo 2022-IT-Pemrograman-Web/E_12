@@ -17,4 +17,8 @@ export default {
     editMusic(id, credentials) {
         return Api().post(`/editMusic/${id}`, credentials);
     },
+    deleteMusic(id) {
+        console.log("auth nich 1");
+        return Api().post(`/deleteMusic/${id}`);
+    }
 }

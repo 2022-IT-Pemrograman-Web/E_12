@@ -2,6 +2,7 @@
     <div class="play-button">
         <button type="button" @click="onClickPlay">{{ this.status }}</button>
         <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
+        <button type="button" @click="onClickDelete">Delete</button>
     </div>
     <div style="margin-top: 8px;">
         <div>Project Name:</div>
@@ -75,6 +76,14 @@ export default {
             this.saveStatus = 'Saving...'
             await setTimeout(this.saveMusic, 1000);
         },
+        async onClickDelete() {
+            if(this.currentMusic.hasOwnProperty('id')){
+                console.log("alhamdulillah ada id hehe")
+                await setTimeout(this.deleteMusic(this.currentMusic.id), 1000);
+            }
+            else console.log("astaghfirullah, gaada id hehe")
+            
+        },
         async editMusic(id, obj) {
             console.log(id, obj);
             const response = await AuthenticationService.editMusic(id, obj);
@@ -88,6 +97,11 @@ export default {
 
             this.$emit('loadRecord');
         },
+        async deleteMusic(id) {
+            const response = await AuthenticationService.deleteMusic(id);
+
+            // this.$emit('deleteRecord');
+        },
         saveMusic() {
             var obj = {
                 name: this.currentMusic.name,
@@ -95,9 +109,13 @@ export default {
             }
 
             if(this.currentMusic.hasOwnProperty('id')){
+                console.log("alhamdulillah ada id nya...")
                 this.editMusic(this.currentMusic.id, obj);
             }
-            else this.createMusic(obj);
+            else {
+                console.log("cukup tau");
+                this.createMusic(obj);
+            }
         },
         saveBuffer(value) {
             this.newInstruments = {
