@@ -3,17 +3,24 @@
         <div class="play-button">
             <button type="button" @click="onClickPlay">{{ this.status }}</button>
             <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
-            <button type="button" @click="onClickTest">Tes</button>
         </div>
         <div style="margin-top: 8px;">
             <div>Project Name:</div>
             <input type="text" v-model="currentMusic.name">
         </div>
-        <div style="margin-top: 8px;">
+        <div style="margin-top: 32px;">
+            <h5>Add New Instrument</h5>
 
             <div v-for="index in 7" :key="id">
-                <input type="checkbox" :value=listOfInstruments[index-1] v-model="createdInstruments[index-1]">
-                <label :for=listOfInstruments[index-1] style="margin-left: 4px">{{ listOfInstruments[index-1] }}</label>
+                <div v-if="uncreatedInstruments[listOfInstruments[index-1]]">
+                    <input type="radio" :value=listOfInstruments[index-1] v-model="wantToCreateInstrument">
+                    <label :for=listOfInstruments[index-1] style="margin-left: 4px">{{ listOfInstruments[index-1] }}</label>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <div>Instrument Name:</div>
+                <input type="text" v-model="newInstrument.name">
             </div>
 
             <button class="btn btn-info" @click="createInstrument">Create Instrument</button>
@@ -28,12 +35,12 @@
             /> -->
 
         </div>
-        
-        <!-- <div v-for="i in this.currentMusic.instruments.length"> -->
-            {{ currentMusic.instruments }}
-        <!-- </div> -->
 
-        <div style="margin-top: 12px;">
+        <div style="margin-top: 32px;">
+            <div v-for="index in 7" :key="id">
+                <div v-if="awesome">Vue is awesome!</div>
+            </div>
+
             <row-key 
                 sound='C-3_Piano' 
                 :isPlayed=this.isPlayed 
@@ -109,6 +116,8 @@ export default {
     emits: ['loadRecord'],
     data() {
         return {
+            wantToCreateInstrument: '',
+
             isPlayed: false,
             isSaved: false,
             saveStatus: 'Save',
@@ -118,20 +127,24 @@ export default {
                 name: 'My Music',
                 instruments: {}
             },
-            newInstruments: {},
+            currentMusicInstruments: {},
             uploadedAudio: {},
 
             listOfInstruments: 
             [ 'C-3_Piano', 'D-3_Piano', 'E-3_Piano', 'F-3_Piano', 'G-3_Piano', 'A-3_Piano', 'B-3_Piano'],
-
-            createdInstruments: {
-                'C-3_Piano': false,
-                'D-3_Piano': false,
-                'E-3_Piano': false,
-                'F-3_Piano': false,
-                'G-3_Piano': false,
-                'A-3_Piano': false,
-                'B-3_Piano': false,
+            uncreatedInstruments: {
+                'C-3_Piano': true,
+                'D-3_Piano': true,
+                'E-3_Piano': true,
+                'F-3_Piano': true,
+                'G-3_Piano': true,
+                'A-3_Piano': true,
+                'B-3_Piano': true,
+            },
+            newInstrument: {
+                color: '',
+                name: '',
+                soundFile: '',
             }
         }
     },
@@ -185,14 +198,10 @@ export default {
 
             this.$emit('loadRecord');
         },
-        onClickTest(){
-            console.log("alhamdulillah...");
-            console.log(this.currentMusic);
-        },
         saveMusic() {
             var obj = {
                 name: this.currentMusic.name,
-                instruments: this.newInstruments
+                instruments: this.currentMusicInstruments
             }
 
             if(this.currentMusic.hasOwnProperty('id')){
@@ -205,8 +214,8 @@ export default {
             }
         },
         saveBuffer(value) {
-            this.newInstruments = {
-                ...this.newInstruments,
+            this.currentMusicInstruments = {
+                ...this.currentMusicInstruments,
                 ...value
             };
         },
