@@ -8,6 +8,30 @@
             <div>Project Name:</div>
             <input type="text" v-model="currentMusic.name">
         </div>
+        <div style="margin-top: 8px;">
+
+            <div v-for="index in 7" :key="id">
+                <input type="checkbox" :value=listOfInstruments[index-1] v-model="createdInstruments[index-1]">
+                <label :for=listOfInstruments[index-1] style="margin-left: 4px">{{ listOfInstruments[index-1] }}</label>
+            </div>
+
+            <button class="btn btn-info" @click="createInstrument">Create Instrument</button>
+
+            <!-- <button class="btn btn-info" @click="onPickFile">Add Instrument</button>
+            <input
+                type="file"
+                style="display: none"
+                ref="fileInput"
+                accept="image/*"
+                @change="onFilePicked"
+            /> -->
+
+        </div>
+        
+        <!-- <div v-for="i in this.currentMusic.instruments.length"> -->
+            {{ currentMusic.instruments }}
+        <!-- </div> -->
+
         <div style="margin-top: 12px;">
             <row-key 
                 sound='C-3_Piano' 
@@ -51,6 +75,8 @@ export default {
     emits: ['loadRecord'],
     data() {
         return {
+            wantToCreateInstrument: '',
+
             isPlayed: false,
             isSaved: false,
             saveStatus: 'Save',
@@ -59,7 +85,21 @@ export default {
                 name: 'My Music',
                 instruments: {}
             },
-            newInstruments: {}
+            newInstruments: {},
+            uploadedAudio: {},
+
+            listOfInstruments: 
+            [ 'C-3_Piano', 'D-3_Piano', 'E-3_Piano', 'F-3_Piano', 'G-3_Piano', 'A-3_Piano', 'B-3_Piano'],
+
+            createdInstruments: {
+                'C-3_Piano': false,
+                'D-3_Piano': false,
+                'E-3_Piano': false,
+                'F-3_Piano': false,
+                'G-3_Piano': false,
+                'A-3_Piano': false,
+                'B-3_Piano': false,
+            }
         }
     },
     methods: {
@@ -93,7 +133,7 @@ export default {
         saveMusic() {
             var obj = {
                 name: this.currentMusic.name,
-                instruments: this.newInstruments
+                instruments: this.currentMusicInstruments
             }
 
             if(this.currentMusic.hasOwnProperty('id')){
@@ -106,8 +146,8 @@ export default {
             }
         },
         saveBuffer(value) {
-            this.newInstruments = {
-                ...this.newInstruments,
+            this.currentMusicInstruments = {
+                ...this.currentMusicInstruments,
                 ...value
             };
         },
