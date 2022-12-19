@@ -80,14 +80,4 @@ app.post('/register', (req, res) => {
   })
 });
 
-app.post('/receive', (req, res) => {
-  const image = req.files;
-
-  // Move the uploaded image to our upload folder
-  image.mv(__dirname + '/upload/' + image.name);
-
-  // All good
-  res.sendStatus(200);
-});
-
 app.listen(process.env.PORT || 8081);

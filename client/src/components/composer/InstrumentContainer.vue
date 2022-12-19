@@ -11,14 +11,21 @@
         </div>
         <div style="margin-top: 8px;">
 
-            <button class="btn btn-info" @click="onPickFile">Add Instrument</button>
+            <div v-for="index in 7" :key="id">
+                <input type="checkbox" :value=listOfInstruments[index-1] v-model="createdInstruments[index-1]">
+                <label :for=listOfInstruments[index-1] style="margin-left: 4px">{{ listOfInstruments[index-1] }}</label>
+            </div>
+
+            <button class="btn btn-info" @click="createInstrument">Create Instrument</button>
+
+            <!-- <button class="btn btn-info" @click="onPickFile">Add Instrument</button>
             <input
                 type="file"
                 style="display: none"
                 ref="fileInput"
-                accept=".mp3,audio/*"
+                accept="image/*"
                 @change="onFilePicked"
-            />
+            /> -->
 
         </div>
         
@@ -113,6 +120,19 @@ export default {
             },
             newInstruments: {},
             uploadedAudio: {},
+
+            listOfInstruments: 
+            [ 'C-3_Piano', 'D-3_Piano', 'E-3_Piano', 'F-3_Piano', 'G-3_Piano', 'A-3_Piano', 'B-3_Piano'],
+
+            createdInstruments: {
+                'C-3_Piano': false,
+                'D-3_Piano': false,
+                'E-3_Piano': false,
+                'F-3_Piano': false,
+                'G-3_Piano': false,
+                'A-3_Piano': false,
+                'B-3_Piano': false,
+            }
         }
     },
     methods: {
@@ -125,24 +145,27 @@ export default {
             this.isPlayed = false;
             this.status = 'Play'
         },
-        onPickFile () {
-            this.$refs.fileInput.click()
-        },
-        async onFilePicked (event) {
-            const files = event.target.files
+        // onPickFile () {
+        //     this.$refs.fileInput.click()
+        // },
+        // async onFilePicked (event) {
+        //     const files = event.target.files
 
-            let filename = files[0].name
-            let audioUrl;
-            const fileReader = new FileReader()
-            fileReader.addEventListener('load', () => {
-                audioUrl = fileReader.result
-            })
-            fileReader.readAsDataURL(files[0])
-            this.uploadedAudio = files[0];
+        //     let filename = files[0].name
+        //     let audioUrl;
+        //     const fileReader = new FileReader()
+        //     fileReader.addEventListener('load', () => {
+        //         audioUrl = fileReader.result
+        //     })
+        //     fileReader.readAsDataURL(files[0])
+        //     this.uploadedAudio = files[0];
 
-            const response = await AuthenticationService.receive(this.uploadedAudio);
-            console.log(response);
+        //     const response = await AuthenticationService.receive(this.uploadedAudio);
+        //     console.log(response);
             
+        // },
+        createInstrument () {
+
         },
         async onClickSave() {
             this.isSaved = true;
