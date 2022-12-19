@@ -1,5 +1,9 @@
 <template>
     <div style="display: flex;">
+        <div class="crud">
+            <button @click="deleteInstrument">delete</button>
+            <button>edit color</button>
+        </div>
         <div class="identifier">
             <p>{{ this.instrument.name }}</p>
         </div>
@@ -18,7 +22,7 @@ import AuthenticationService from '@/services/AutheticationService'
 export default {
     name: 'RowKey',
     props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic'],
-    emits: ['selesai', 'saveInstrument'],
+    emits: ['selesai', 'saveInstrument', 'deleteInstrument'],
     data() {
         return {
             instrument: {
@@ -132,6 +136,9 @@ export default {
                 [this.sound]: this.keys
             }
             this.$emit('saveInstrument', obj);
+        },
+        deleteInstrument() {
+            this.$emit('deleteInstrument', this.sound);
         }
     },
     mounted() {
