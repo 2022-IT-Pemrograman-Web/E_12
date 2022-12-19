@@ -19,8 +19,5 @@ export default {
     },
     deleteMusic(id) {
         return Api().post(`/deleteMusic/${id}`);
-    },
-    receive(credentials) {
-        return Api().post(`/receive`, credentials);
     }
 }
