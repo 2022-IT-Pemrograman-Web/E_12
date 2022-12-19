@@ -106,7 +106,7 @@ export default {
             isSaved: false,
             saveStatus: 'Save',
             status: 'Play',
-            Instruments: {},
+            Instruments: [],
             currentMusic: {
                 name: 'My Music',
                 instruments: {}
