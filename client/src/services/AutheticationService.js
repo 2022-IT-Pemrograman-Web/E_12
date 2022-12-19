@@ -8,6 +8,9 @@ export default {
     getInstrument (name) {
         return Api().get(`/getInstrument/${name}`);
     },
+    getInstruments(){
+        return Api().get(`/getInstruments`);
+    },
     getMusics() {
         return Api().get(`/getMusics`);
     },

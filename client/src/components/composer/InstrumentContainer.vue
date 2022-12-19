@@ -3,6 +3,7 @@
         <div class="play-button">
             <button type="button" @click="onClickPlay">{{ this.status }}</button>
             <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
+            <button type="button" @click="onClickTest">Tes</button>
         </div>
         <div style="margin-top: 8px;">
             <div>Project Name:</div>
@@ -27,6 +28,11 @@
             /> -->
 
         </div>
+        
+        <!-- <div v-for="i in this.currentMusic.instruments.length"> -->
+            {{ currentMusic.instruments }}
+        <!-- </div> -->
+
         <div style="margin-top: 12px;">
             <row-key 
                 sound='C-3_Piano' 
@@ -34,6 +40,7 @@
                 :loadedMusic=this.currentMusic
                 :isSaved=this.isSaved
                 @saveInstrument=this.saveBuffer
+                @deleteInstrument=this.deleteInstrument
             />
     
             <row-key 
@@ -106,6 +113,7 @@ export default {
             isSaved: false,
             saveStatus: 'Save',
             status: 'Play',
+            Instruments: [],
             currentMusic: {
                 name: 'My Music',
                 instruments: {}
@@ -176,6 +184,10 @@ export default {
             this.saveStatus = 'Save';
 
             this.$emit('loadRecord');
+        },
+        onClickTest(){
+            console.log("alhamdulillah...");
+            console.log(this.currentMusic);
         },
         saveMusic() {
             var obj = {
