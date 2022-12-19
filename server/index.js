@@ -67,20 +67,16 @@ app.post('/register', (req, res) => {
   res.send({
       message: `hello ${req.body.email}!`
   })
-})
-
-app.post("/create", async (req, res) => {
-  const data = req.body;
-  await User.add({ data });
-  res.send({ msg: "User Added" });
 });
 
-app.post("/update", async (req, res) => {
-  const id = req.body.id;
-  delete req.body.id;
-  const data = req.body;
-  await User.doc(id).update(data);
-  res.send({ msg: "Updated" });
+app.post('/receive', (req, res) => {
+  const image = req.files;
+
+  // Move the uploaded image to our upload folder
+  image.mv(__dirname + '/upload/' + image.name);
+
+  // All good
+  res.sendStatus(200);
 });
 
 app.listen(process.env.PORT || 8081);
