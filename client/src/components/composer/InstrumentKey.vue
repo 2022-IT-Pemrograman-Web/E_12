@@ -21,15 +21,15 @@ import AuthenticationService from '@/services/AutheticationService'
 
 export default {
     name: 'RowKey',
-    props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic'],
+    props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic', 'instrument'],
     emits: ['selesai', 'saveInstrument', 'deleteInstrument'],
     data() {
         return {
-            instrument: {
-                name: this.sound,
-                soundFile: '',
-                color: ''
-            },
+            // instrument: {
+            //     name: this.sound,
+            //     soundFile: '',
+            //     color: ''
+            // },
             keys: {
                 '1': false, '2': false, '3': false, '4': false,
                 '5': false, '6': false, '7': false, '8': false,

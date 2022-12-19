@@ -25,9 +25,9 @@ app.get("/getInstruments", async(req, res) => {
 
   snapshot.forEach((doc) => {
     list.push({id: doc.id, ...doc.data()});
-  })
-
-  res.send(list);
+  });
+  // res.send(list);
+  res.send({mes:"HALOO"});
 });
 
 app.get("/getMusics", async (req, res) => {
