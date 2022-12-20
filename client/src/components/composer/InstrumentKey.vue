@@ -145,7 +145,7 @@ export default {
             this.$emit('onClickDelete', this.sound);
         },
         editInstrument() {
-            this.$emit('onClickEdit', this.newInstrument);
+            this.$emit('onClickEdit', this.sound, this.newInstrument);
             console.log(this.newInstrument);
         }
     },

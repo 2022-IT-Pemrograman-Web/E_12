@@ -157,9 +157,10 @@ export default {
 
             this.getInstruments();
         },
-        async editInstrument(obj) {
-            console.log('hai hia');
-            const response = await AuthenticationService.editInstrument(obj);
+        async editInstrument(id, obj) {
+            const response = await AuthenticationService.editInstrument(id, obj);
+            this.firebaseInstruments = [];
+            this.getInstruments();
         },
         async onClickSave() {
             this.isSaved = true;
@@ -186,11 +187,9 @@ export default {
             }
 
             if(this.currentMusic.hasOwnProperty('id')){
-                console.log("alhamdulillah ada id nya...")
                 this.editMusic(this.currentMusic.id, obj);
             }
             else {
-                console.log("cukup tau");
                 this.createMusic(obj);
             }
         },
