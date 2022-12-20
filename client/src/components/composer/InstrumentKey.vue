@@ -1,16 +1,16 @@
 <template>
     <div style="display: flex;">
-        <div class="crud">
-            <button @click="deleteInstrument">delete</button>
-            <button>edit color</button>
-        </div>
         <div class="identifier">
             <p>{{ this.instrument.name }}</p>
         </div>
-        <div class="key-container">
+        <div class="key-container" style="margin-left: 18px">
             <div v-for="index in 16" :key="index">
                 <div class="key" :style="keyObject(index)" @click="click(index)"></div>
             </div>
+        </div>
+        <div class="crud" style="margin-left: 18px">
+            <button @click="deleteInstrument">delete</button>
+            <button>edit</button>
         </div>
         <audio ref="audio"></audio>
     </div>
@@ -25,11 +25,11 @@ export default {
     emits: ['selesai', 'saveInstrument', 'deleteInstrument'],
     data() {
         return {
-            // instrument: {
-            //     name: this.sound,
-            //     soundFile: '',
-            //     color: ''
-            // },
+            instrument: {
+                name: this.sound,
+                soundFile: '',
+                color: ''
+            },
             keys: {
                 '1': false, '2': false, '3': false, '4': false,
                 '5': false, '6': false, '7': false, '8': false,
