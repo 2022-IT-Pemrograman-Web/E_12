@@ -10,7 +10,11 @@
         </div>
         <div class="crud" style="margin-left: 18px">
             <button @click="deleteInstrument">Delete</button>
-            <button>edit</button>
+            <button @click="editInstrument">edit</button>
+            <form>
+                <label for="name">name</label><input type="text" v-model="newInstrument.name">
+                <label for="color">color</label><input type="text" v-model="newInstrument.color">
+            </form>
         </div>
         <audio ref="audio"></audio>
     </div>
@@ -22,7 +26,7 @@ import AuthenticationService from '@/services/AutheticationService'
 export default {
     name: 'RowKey',
     props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic'],
-    emits: ['selesai', 'saveInstrument', 'onClickDelete'],
+    emits: ['selesai', 'saveInstrument', 'onClickDelete', 'onClickEdit'],
     data() {
         return {
             instrument: {},
@@ -34,6 +38,7 @@ export default {
             },
             musicPlaying: '',
             sfx: '',
+            newInstrument: {}
         }
     },
     methods: {
@@ -138,6 +143,10 @@ export default {
         deleteInstrument() {
             console.log(this.sound);
             this.$emit('onClickDelete', this.sound);
+        },
+        editInstrument() {
+            this.$emit('onClickEdit', this.newInstrument);
+            console.log(this.newInstrument);
         }
     },
     mounted() {

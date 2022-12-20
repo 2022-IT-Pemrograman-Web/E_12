@@ -41,6 +41,7 @@
                     :isSaved=this.isSaved
                     @saveInstrument=this.saveBuffer
                     @onClickDelete=this.deleteInstrument
+                    @onClickEdit=this.editInstrument
                 />
             </div>
         </div>
@@ -158,6 +159,10 @@ export default {
             const response = await AuthenticationService.deleteInstrument(value);
 
             this.getInstruments();
+        },
+        async editInstrument(obj) {
+            console.log('hai hia');
+            const response = await AuthenticationService.editInstrument(obj);
         },
         async onClickSave() {
             this.isSaved = true;
