@@ -1,9 +1,9 @@
 <template>
     <div style="display: flex;">
         <div class="identifier">
-            <p>{{ this.instrument }}</p>
+            <p>{{ this.instrument.name }}</p>
         </div>
-        <div class="key-container" style="margin-left: 18px">
+        <div class="key-container" style="margin-left: 17px">
             <div v-for="index in 16" :key="index">
                 <div class="key" :style="keyObject(index)" @click="click(index)"></div>
             </div>

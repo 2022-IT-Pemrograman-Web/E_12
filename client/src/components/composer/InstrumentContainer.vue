@@ -33,7 +33,6 @@
 
         <div style="margin-top: 24px;">
             <div v-for="i in this.firebaseInstruments">
-                {{ i.id }}
                 <row-key 
                     :sound=i.id
                     :isPlayed=this.isPlayed 
@@ -117,9 +116,7 @@ export default {
                     isUncreated: true
                 }
             ],
-            firebaseInstruments: [{
-                id: ''
-            }],
+            firebaseInstruments: '',
         }
     },
     methods: {
