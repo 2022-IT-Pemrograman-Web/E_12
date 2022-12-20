@@ -2,17 +2,15 @@
 import Api from '@/services/Api'
 
 export default {
-    register (credentials) {
-        return Api().post('register', credentials);
-    },
     getInstrument (name) {
         return Api().get(`/getInstrument/${name}`);
     },
-    getInstruments(){
-        return Api().get(`/getInstruments`);
+    createInstrument(credentials) {
+        return Api().post(`/createInstrument`, credentials);
     },
+
     getMusics() {
-        return Api().get(`/getMusics`);
+        return Api().get(`/getMusic`);
     },
     createMusic(credentials) {
         return Api().post(`/createMusic`, credentials);

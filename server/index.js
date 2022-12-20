@@ -5,6 +5,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Instrument
+
+app.post("/createInstrument", async (req, res) => {
+  await Instruments.add({
+    name: req.body.name,
+    soundFile: req.body.soundFile,
+    color: req.body.color,
+  })
+
+  res.send({ msg: "Music Created!" });
+});
+
 app.get("/getInstrument/:id", async (req, res) => {
   var docRef = Instruments.doc(req.params.id);
 
@@ -19,7 +31,9 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
-app.get("/getMusics", async (req, res) => {
+// Music
+
+app.get("/getMusic", async (req, res) => {
   var list = [];
   const snapshot = await Musics.get();
 
@@ -60,13 +74,6 @@ app.post("/deleteMusic/:id", async (req, res) => {
     console.log("hai, error di sini!");
     res.status(400).send(error);
   });
-});
-
-app.post('/register', (req, res) => {
-
-  res.send({
-      message: `hello ${req.body.email}!`
-  })
 });
 
 app.listen(process.env.PORT || 8081);

@@ -11,16 +11,21 @@
         <div style="margin-top: 32px;">
             <h5>Add New Instrument</h5>
 
-            <div v-for="index in 7" :key="id">
-                <div v-if="uncreatedInstruments[listOfInstruments[index-1]]">
-                    <input type="radio" :value=listOfInstruments[index-1] v-model="wantToCreateInstrument">
-                    <label :for=listOfInstruments[index-1] style="margin-left: 4px">{{ listOfInstruments[index-1] }}</label>
+            <div v-for="index in 7" :key="index">
+                <div v-if="listOfInstruments[index-1].isUncreated">
+                    <input type="radio" :id=index-1 :value=index-1 v-model="wantToCreateInstrument">
+                    <label :for=index-1 style="margin-left: 4px">{{ listOfInstruments[index-1].name }}</label>
                 </div>
             </div>
 
             <div style="margin-bottom: 12px;">
                 <div>Instrument Name:</div>
                 <input type="text" v-model="newInstrument.name">
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <div>Instrument Color:</div>
+                <input type="text" v-model="newInstrument.color">
             </div>
 
             <button class="btn btn-info" @click="createInstrument">Create Instrument</button>
@@ -37,9 +42,9 @@
         </div>
 
         <div style="margin-top: 32px;">
-            <div v-for="index in 7" :key="id">
+            <!-- <div v-for="index in 7" :key="id">
                 <div v-if="awesome">Vue is awesome!</div>
-            </div>
+            </div> -->
 
             <row-key 
                 sound='C-3_Piano' 
@@ -47,7 +52,6 @@
                 :loadedMusic=this.currentMusic
                 :isSaved=this.isSaved
                 @saveInstrument=this.saveBuffer
-                @deleteInstrument=this.deleteInstrument
             />
     
             <row-key 
@@ -116,13 +120,12 @@ export default {
     emits: ['loadRecord'],
     data() {
         return {
-            wantToCreateInstrument: '',
+            wantToCreateInstrument: 0,
 
             isPlayed: false,
             isSaved: false,
             saveStatus: 'Save',
             status: 'Play',
-            Instruments: [],
             currentMusic: {
                 name: 'My Music',
                 instruments: {}
@@ -130,22 +133,48 @@ export default {
             currentMusicInstruments: {},
             uploadedAudio: {},
 
-            listOfInstruments: 
-            [ 'C-3_Piano', 'D-3_Piano', 'E-3_Piano', 'F-3_Piano', 'G-3_Piano', 'A-3_Piano', 'B-3_Piano'],
-            uncreatedInstruments: {
-                'C-3_Piano': true,
-                'D-3_Piano': true,
-                'E-3_Piano': true,
-                'F-3_Piano': true,
-                'G-3_Piano': true,
-                'A-3_Piano': true,
-                'B-3_Piano': true,
-            },
             newInstrument: {
-                color: '',
+                color: '#FF0000',
                 name: '',
-                soundFile: '',
-            }
+            },
+
+            listOfInstruments: [
+                {
+                    name: 'C-3 Piano',
+                    soundFile: '../src/assets/C-3.mp3',
+                    isUncreated: true
+                }, 
+                {
+                    name: 'D-3 Piano',
+                    soundFile: '../src/assets/D-3.mp3',
+                    isUncreated: true
+                },
+                {
+                    name: 'E-3 Piano',
+                    soundFile: '../src/assets/E-3.mp3',
+                    isUncreated: true
+                },
+                {
+                    name: 'F-3 Piano',
+                    soundFile: '../src/assets/F-3.mp3',
+                    isUncreated: true
+                },
+                {
+                    name: 'G-3 Piano',
+                    soundFile: '../src/assets/G-3.mp3',
+                    isUncreated: true
+                },
+                {
+                    name: 'A-3 Piano',
+                    soundFile: '../src/assets/A-3.mp3',
+                    isUncreated: true
+                },
+                {
+                    name: 'B-3 Piano',
+                    soundFile: '../src/assets/B-3.mp3',
+                    isUncreated: true
+                }
+            ],
         }
     },
     methods: {
@@ -177,8 +206,20 @@ export default {
         //     console.log(response);
             
         // },
-        createInstrument () {
+        async createInstrument () {
+            var i = this.wantToCreateInstrument
+            var obj = this.newInstrument
+            this.listOfInstruments[i].isUncreated = true;
+            
+            var upload = {soundFile: this.listOfInstruments[i].soundFile, name:obj.name, color: obj.color};
 
+            if (upload.name == '') 
+                upload.name = this.listOfInstruments[i].name;
+
+            console.log(upload);
+
+
+            const response = await AuthenticationService.createInstrument(upload);
         },
         async onClickSave() {
             this.isSaved = true;
