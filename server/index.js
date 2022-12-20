@@ -8,7 +8,7 @@ app.use(cors());
 // Instrument
 
 app.post("/createInstrument", async (req, res) => {
-  await Instruments.add({
+  await Instruments.doc(req.body.name).set({
     name: req.body.name,
     soundFile: req.body.soundFile,
     color: req.body.color,
@@ -31,15 +31,15 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
-app.get("/getInstruments", async (req, res) => {
+app.get("/getInstrument", async (req, res) => {
   var list = [];
   const snapshot = await Instruments.get();
 
   snapshot.forEach((doc) => {
     list.push({id: doc.id, ...doc.data()});
   });
-  // res.send(list);
-  res.send({mes:"HALOO"});
+  
+  res.send(list);
 });
 
 // Music

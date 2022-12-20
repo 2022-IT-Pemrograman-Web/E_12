@@ -1,7 +1,7 @@
 <template>
     <div style="display: flex;">
         <div class="identifier">
-            <p>{{ this.instrument.name }}</p>
+            <p>{{ this.instrument }}</p>
         </div>
         <div class="key-container" style="margin-left: 18px">
             <div v-for="index in 16" :key="index">
@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="crud" style="margin-left: 18px">
-            <button @click="deleteInstrument">delete</button>
+            <button @click="deleteInstrument">Delete</button>
             <button>edit</button>
         </div>
         <audio ref="audio"></audio>
@@ -21,15 +21,11 @@ import AuthenticationService from '@/services/AutheticationService'
 
 export default {
     name: 'RowKey',
-    props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic', 'instrument'],
-    emits: ['selesai', 'saveInstrument', 'deleteInstrument'],
+    props: ['sound', 'isPlayed', 'isSaved', 'loadedMusic'],
+    emits: ['selesai', 'saveInstrument', 'onClickDelete'],
     data() {
         return {
-            instrument: {
-                name: this.sound,
-                soundFile: '',
-                color: ''
-            },
+            instrument: {},
             keys: {
                 '1': false, '2': false, '3': false, '4': false,
                 '5': false, '6': false, '7': false, '8': false,
@@ -60,6 +56,8 @@ export default {
         },
         async getInstrument () {
             const response = await AuthenticationService.getInstrument(this.sound);
+            console.log(this.sound);
+            console.log(response.data);
             this.instrument = response.data;
 
             this.sfx = {
@@ -138,7 +136,8 @@ export default {
             this.$emit('saveInstrument', obj);
         },
         deleteInstrument() {
-            this.$emit('deleteInstrument', this.sound);
+            console.log(this.sound);
+            this.$emit('onClickDelete', this.sound);
         }
     },
     mounted() {

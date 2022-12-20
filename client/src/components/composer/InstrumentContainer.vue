@@ -1,9 +1,5 @@
 <template>
     <div>
-        <div class="play-button">
-            <button type="button" @click="onClickPlay">{{ this.status }}</button>
-            <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
-        </div>
         <div style="margin-top: 8px;">
             <div>Project Name:</div>
             <input type="text" v-model="currentMusic.name">
@@ -28,75 +24,25 @@
             </div>
 
             <button class="btn btn-info" @click="createInstrument">Create Instrument</button>
-
-            <!-- <button class="btn btn-info" @click="onPickFile">Add Instrument</button>
-            <input
-                type="file"
-                style="display: none"
-                ref="fileInput"
-                accept="image/*"
-                @change="onFilePicked"
-            /> -->
-
         </div>
 
+        <div class="play-button" style="margin-top: 24px;">
+            <button type="button" @click="onClickPlay">{{ this.status }}</button>
+            <button type="button" @click="onClickSave">{{ this.saveStatus }}</button>
+        </div>
 
-        <div style="margin-top: 32px;">
-            <row-key 
-                sound='C-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-    
-            <row-key 
-                sound='D-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-    
-            <row-key 
-                sound='E-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-
-            <row-key 
-                sound='F-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-    
-            <row-key 
-                sound='G-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-    
-            <row-key 
-                sound='A-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-
-            <row-key 
-                sound='B-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
+        <div style="margin-top: 24px;">
+            <div v-for="i in this.firebaseInstruments">
+                {{ i.id }}
+                <row-key 
+                    :sound=i.id
+                    :isPlayed=this.isPlayed 
+                    :loadedMusic=this.currentMusic
+                    :isSaved=this.isSaved
+                    @saveInstrument=this.saveBuffer
+                    @onClickDelete=this.deleteInstrument
+                />
+            </div>
         </div>
         <div style="margin-top: 8px; margin-bottom: 18px;">
             <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
@@ -171,6 +117,9 @@ export default {
                     isUncreated: true
                 }
             ],
+            firebaseInstruments: [{
+                id: ''
+            }],
         }
     },
     methods: {
@@ -183,25 +132,10 @@ export default {
             this.isPlayed = false;
             this.status = 'Play'
         },
-        // onPickFile () {
-        //     this.$refs.fileInput.click()
-        // },
-        // async onFilePicked (event) {
-        //     const files = event.target.files
-
-        //     let filename = files[0].name
-        //     let audioUrl;
-        //     const fileReader = new FileReader()
-        //     fileReader.addEventListener('load', () => {
-        //         audioUrl = fileReader.result
-        //     })
-        //     fileReader.readAsDataURL(files[0])
-        //     this.uploadedAudio = files[0];
-
-        //     const response = await AuthenticationService.receive(this.uploadedAudio);
-        //     console.log(response);
-            
-        // },
+        async getInstruments() {
+            const response = await AuthenticationService.getInstruments();
+            this.firebaseInstruments = response.data;
+        },  
         async createInstrument () {
             var i = this.wantToCreateInstrument
             var obj = this.newInstrument
@@ -216,6 +150,14 @@ export default {
 
 
             const response = await AuthenticationService.createInstrument(upload);
+
+            this.getInstruments();
+        },
+        async deleteInstrument(value) {
+            console.log("masuk");
+            const response = await AuthenticationService.deleteInstrument(value);
+
+            this.getInstruments();
         },
         async onClickSave() {
             this.isSaved = true;
@@ -264,6 +206,9 @@ export default {
         loadedMusic: function(newVal, oldVal) {
             this.loadMusic();
         }
-    }
+    },
+    mounted() {
+        this.getInstruments();
+    },
 }
 </script>
