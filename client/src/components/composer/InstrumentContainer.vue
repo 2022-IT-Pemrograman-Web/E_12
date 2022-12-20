@@ -133,7 +133,16 @@ export default {
         async getInstruments() {
             const response = await AuthenticationService.getInstruments();
             this.firebaseInstruments = response.data;
+
+            this.checkCreatedInstruments();
         },  
+        async checkCreatedInstruments() {
+            await this.firebaseInstruments.forEach(x => {
+                this.listOfInstruments.forEach(y => {
+                    if(x.id === y.name) y.isUncreated = false;
+                })
+            });
+        },
         async createInstrument () {
             var i = this.wantToCreateInstrument
             var obj = this.newInstrument
@@ -156,6 +165,10 @@ export default {
             const response = await AuthenticationService.deleteInstrument(value);
 
             this.getInstruments();
+
+            this.listOfInstruments.forEach(i => {
+                if(i.name == value) i.isUncreated = true;
+            });
         },
         async editInstrument(id, obj) {
             const response = await AuthenticationService.editInstrument(id, obj);
