@@ -8,8 +8,7 @@
             <div>Project Name:</div>
             <input type="text" v-model="currentMusic.name">
         </div>
-        <div style="margin-top: 32px;">
-            <h5>Add New Instrument</h5>
+        <div style="margin-top: 8px;">
 
             <div v-for="index in 7" :key="index">
                 <div v-if="listOfInstruments[index-1].isUncreated">
@@ -40,6 +39,10 @@
             /> -->
 
         </div>
+        
+        <!-- <div v-for="i in this.currentMusic.instruments.length"> -->
+            {{ currentMusic.instruments }}
+        <!-- </div> -->
 
         <div style="margin-top: 32px;">
             <!-- <div v-for="index in 7" :key="id">
@@ -69,40 +72,8 @@
                 :isSaved=this.isSaved
                 @saveInstrument=this.saveBuffer
             />
-
-            <row-key 
-                sound='F-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-
-            <row-key 
-                sound='G-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-
-            <row-key 
-                sound='A-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
-
-            <row-key 
-                sound='B-3_Piano' 
-                :isPlayed=this.isPlayed 
-                :loadedMusic=this.currentMusic
-                :isSaved=this.isSaved
-                @saveInstrument=this.saveBuffer
-            />
         </div>
-        <div style="margin-top: 8px; margin-bottom: 32px;">
+        <div style="margin-top: 8px;">
             <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
         </div>
     </div>
@@ -130,7 +101,7 @@ export default {
                 name: 'My Music',
                 instruments: {}
             },
-            currentMusicInstruments: {},
+            newInstruments: {},
             uploadedAudio: {},
 
             newInstrument: {

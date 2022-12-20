@@ -31,6 +31,17 @@ app.get("/getInstrument/:id", async (req, res) => {
   });
 });
 
+app.get("/getInstruments", async (req, res) => {
+  var list = [];
+  const snapshot = await Instruments.get();
+
+  snapshot.forEach((doc) => {
+    list.push({id: doc.id, ...doc.data()});
+  });
+  // res.send(list);
+  res.send({mes:"HALOO"});
+});
+
 // Music
 
 app.get("/getMusic", async (req, res) => {
