@@ -87,4 +87,25 @@ app.post("/deleteMusic/:id", async (req, res) => {
   });
 });
 
+app.delete("/deleteInstrument/:id", async (req, res) => {
+  
+  var docRef = Instruments.doc(req.params.id);
+  
+  await docRef.delete().then(() => {
+    res.send({ msg: "Deleted" });
+  }).catch((error) => {
+    res.status(400).send(error);
+  });
+});
+
+app.post("/editInstrument/:id", async (req, res) => {
+  var docRef = Musics.doc(req.params.id);
+  await docRef.set({
+    color: req.body.color,
+    name: req.body.name
+  })
+
+  res.send({ msg: "Music Edited!" });
+});
+
 app.listen(process.env.PORT || 8081);

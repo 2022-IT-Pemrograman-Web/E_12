@@ -8,7 +8,12 @@ export default {
     createInstrument(credentials) {
         return Api().post(`/createInstrument`, credentials);
     },
-
+    deleteInstrument(){
+        return Api().delete(`/deleteInstrument/${id}`);
+    },
+    editInstrument(credentials){
+        return Api().delete(`/editInstrument/${id}`, credentials);
+    },
     getMusics() {
         return Api().get(`/getMusic`);
     },
