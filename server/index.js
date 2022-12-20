@@ -99,10 +99,13 @@ app.delete("/deleteInstrument/:id", async (req, res) => {
 });
 
 app.post("/editInstrument/:id", async (req, res) => {
-  var docRef = Musics.doc(req.params.id);
+  var docRef = Instruments.doc(req.params.id);
+  var doc = await docRef.get();
+
   await docRef.set({
     color: req.body.color,
-    name: req.body.name
+    name: req.body.name,
+    soundFile: doc.data().soundFile
   })
 
   res.send({ msg: "Music Edited!" });
