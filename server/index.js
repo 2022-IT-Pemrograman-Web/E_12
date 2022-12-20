@@ -36,9 +36,14 @@ app.get("/getInstrument", async (req, res) => {
   const snapshot = await Instruments.get();
 
   snapshot.forEach((doc) => {
-    list.push({id: doc.id, ...doc.data()});
+    list.push(
+      {
+        id: doc.id, 
+        ...doc.data()
+      }
+    );
   });
-  
+
   res.send(list);
 });
 

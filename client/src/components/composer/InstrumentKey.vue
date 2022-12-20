@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex;">
-        <div class="identifier">
+        <div class="identifier" style="width: 180px">
             <p>{{ this.instrument.name }}</p>
         </div>
         <div class="key-container" style="margin-left: 17px">

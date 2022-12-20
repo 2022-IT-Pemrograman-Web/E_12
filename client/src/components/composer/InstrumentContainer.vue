@@ -43,7 +43,7 @@
                 />
             </div>
         </div>
-        <div style="margin-top: 8px; margin-bottom: 18px;">
+        <div style="margin-top: 8px; margin-bottom: 18px; margin-left: 72px;">
             <LightIndicator :isPlayed=this.isPlayed @selesai="onClickChild" />
         </div>
     </div>
