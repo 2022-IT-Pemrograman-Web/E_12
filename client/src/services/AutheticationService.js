@@ -14,8 +14,8 @@ export default {
     deleteInstrument(id){
         return Api().delete(`/deleteInstrument/${id}`);
     },
-    editInstrument(credentials){
-        return Api().delete(`/editInstrument/${id}`, credentials);
+    editInstrument(id, credentials){
+        return Api().post(`/editInstrument/${id}`, credentials);
     },
 
 

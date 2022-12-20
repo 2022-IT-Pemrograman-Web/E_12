@@ -40,6 +40,7 @@
                     :isSaved=this.isSaved
                     @saveInstrument=this.saveBuffer
                     @onClickDelete=this.deleteInstrument
+                    @onClickEdit=this.editInstrument
                 />
             </div>
         </div>
@@ -169,6 +170,11 @@ export default {
                 if(i.name == value) i.isUncreated = true;
             });
         },
+        async editInstrument(id, obj) {
+            const response = await AuthenticationService.editInstrument(id, obj);
+            this.firebaseInstruments = [];
+            this.getInstruments();
+        },
         async onClickSave() {
             this.isSaved = true;
             this.saveStatus = 'Saving...'
@@ -194,11 +200,9 @@ export default {
             }
 
             if(this.currentMusic.hasOwnProperty('id')){
-                console.log("alhamdulillah ada id nya...")
                 this.editMusic(this.currentMusic.id, obj);
             }
             else {
-                console.log("cukup tau");
                 this.createMusic(obj);
             }
         },
